@@ -1,3 +1,4 @@
+import 'package:flutter_greetd/components/arrow_keys.dart';
 import 'package:material_ui/material_ui.dart';
 
 class Centerpanel extends StatefulWidget {
@@ -34,24 +35,11 @@ class _CenterpanelState extends State<Centerpanel> {
               crossAxisAlignment: .center,
               children: [
                 // Left arrow
-                Container(
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 74, 68, 114),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: IconButton(
-                    onPressed: () {},
-                    tooltip: 'switch user',
-                    enableFeedback: true,
-                    style: IconButton.styleFrom(
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                      ),
-                    ),
-                    icon: Icon(Icons.arrow_left),
-                    iconSize: 20,
-                    color: Colors.white,
-                  ),
+                ArrowKeys(
+                  icon: Icons.arrow_left,
+                  width: 36,
+                  height: 36,
+                  toolTip: 'switch user',
                 ),
 
                 // Selected username
@@ -65,43 +53,37 @@ class _CenterpanelState extends State<Centerpanel> {
                 SizedBox(width: 16),
 
                 // right arrow
-                Container(
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 74, 68, 114),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-
-                  child: IconButton(
-                    onPressed: () {},
-                    tooltip: 'switch user',
-                    enableFeedback: true,
-                    style: IconButton.styleFrom(
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.zero,
-                      ),
-                    ),
-                    icon: Icon(Icons.arrow_right),
-                    iconSize: 20,
-                    color: Colors.white,
-                  ),
+                ArrowKeys(
+                  icon: Icons.arrow_right,
+                  width: 36,
+                  height: 36,
+                  toolTip: 'switch user',
                 ),
               ],
-            ), 
+            ),
             SizedBox(height: 16),
 
             // Password field
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40),
-                  child: TextField(
-                    decoration: InputDecoration(border: OutlineInputBorder(),),
-                    obscureText: true,
-                    style: TextStyle(color: Colors.white),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  Flexible(
+                    child: TextField(
+                      decoration: InputDecoration(border: OutlineInputBorder()),
+                      obscureText: true,
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
-                ),
 
-              ],
+                  // Password submit button
+                  SizedBox(width: 8),
+                  ArrowKeys(
+                    icon: Icons.keyboard_arrow_right,
+                    toolTip: 'Enter password',
+                  ),
+                ],
+              ),
             ),
           ],
         ),
