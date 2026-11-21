@@ -12,7 +12,7 @@ class Rightpanel extends StatelessWidget {
         padding: EdgeInsets.all(32),
         child: Column(
           mainAxisAlignment: .start,
-          children: [Text('hello', style: TextStyle(color: Colors.white))],
+          children: [Text('nothing for now :P', style: TextStyle(color: Colors.white))],
         ),
       ),
     );
