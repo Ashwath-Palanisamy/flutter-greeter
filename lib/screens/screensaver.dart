@@ -21,7 +21,7 @@ class _ScreensaverState extends State<Screensaver> {
           scaleY: 1.3,
           child: ImageFiltered(
             imageFilter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Image.asset('asset/images/bg_image.jpg', fit: BoxFit.cover),
+            child: Image.asset('assets/images/bg_image.jpg', fit: BoxFit.cover),
           ),
         ),
 

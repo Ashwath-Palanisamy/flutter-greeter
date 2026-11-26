@@ -8,7 +8,8 @@ class ControlService {
     String systemctlCmd;
     String successMessage;
 
-    switch (state) {
+    final normalized = state.toLowerCase();
+    switch (normalized) {
       case 'shutdown':
         systemctlCmd = 'poweroff';
         successMessage = 'shutdown requested';

@@ -10,7 +10,7 @@ class Leftpanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Flexible(
+    return Expanded(
       flex: 1,
       child: Container(
         decoration: BoxDecoration(border: Border.all(width: 3)),
@@ -29,8 +29,10 @@ class Leftpanel extends StatelessWidget {
             // First row
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
+              child: Wrap(
                 spacing: 32,
+                runSpacing: 32,
+                alignment: WrapAlignment.center,
                 children: [
                   ActionButtons(
                     name: 'Shutdown',
@@ -51,8 +53,10 @@ class Leftpanel extends StatelessWidget {
             // Second row
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
+              child: Wrap(
                 spacing: 32,
+                runSpacing: 32,
+                alignment: WrapAlignment.center,
                 children: [
                   ActionButtons(
                     name: 'Sleep',
