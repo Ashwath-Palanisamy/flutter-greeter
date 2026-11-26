@@ -130,9 +130,25 @@ class _CenterpanelState extends State<Centerpanel> {
         case LoginFailure(:final message):
           _passwordController.clear();
           debugPrint('Login failed: $message');
-          setState(() {
-            _isSubmitting = false;
-          });
+          if (!mounted) return;
+          showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+              title: const Text('Login failed'),
+              content: Text(message),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    setState(() {
+                      _isSubmitting = false;
+                    });
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            ),
+          );
         case LoginCancelled():
           _passwordController.clear();
           debugPrint('Login cancelled');

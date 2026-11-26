@@ -443,10 +443,25 @@ class LoginService {
         return const LoginCancelled();
       }
 
+      final List<String> effectiveEnv = <String>[
+        ...sessionEnv,
+      ];
+
+      // Propagate the greeter's own session type so logind registers it for the
+      // new session. Default to wayland when the greeter itself does not report one.
+      final currentSessionType = Platform.environment['XDG_SESSION_TYPE'];
+      effectiveEnv.add('XDG_SESSION_TYPE=${currentSessionType ?? 'wayland'}');
+
+      // Set current envitonment.
+      final currentDesktop = Platform.environment['XDG_CURRENT_DESKTOP'];
+      if (currentDesktop != null && currentDesktop.isNotEmpty) {
+        effectiveEnv.add('XDG_CURRENT_DESKTOP=$currentDesktop');
+      }
+
       final Map<String, dynamic> startPayload = {
         'type': 'start_session',
         'cmd': List<String>.from(sessionCmd),
-        if (sessionEnv.isNotEmpty) 'env': List<String>.from(sessionEnv),
+        'env': effectiveEnv,
       };
 
       await _sendGreetdMessage(socket, startPayload);
