@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter_greetd/components/arrow_keys.dart';
 import 'package:flutter_greetd/services/login_service.dart';
 import 'package:flutter_greetd/services/wayland_session_service.dart';
@@ -125,9 +126,7 @@ class _CenterpanelState extends State<Centerpanel> {
       switch (result) {
         case LoginSuccess():
           debugPrint('Login succeeded for $username');
-          setState(() {
-            _isSubmitting = false;
-          });
+          exit(0);
         case LoginFailure(:final message):
           _passwordController.clear();
           debugPrint('Login failed: $message');
@@ -180,105 +179,105 @@ class _CenterpanelState extends State<Centerpanel> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-          const SizedBox(height: 16),
-          const CircleAvatar(
-            radius: 40,
-            backgroundColor: Color.fromARGB(255, 74, 68, 114),
-            child: Icon(Icons.person, color: Colors.white, size: 42),
-          ),
-          const SizedBox(height: 16),
-        
-          // Username selector
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              ArrowKeys(
-                icon: Icons.arrow_left,
-                width: 36,
-                height: 36,
-                toolTip: 'Previous user',
-                onTap: () {
-                  if (!_isSubmitting) _selectPreviousUser();
-                },
-              ),
-              const SizedBox(width: 16),
-              Text(
-                _displayedUsername,
-                style: const TextStyle(color: Colors.white, fontSize: 20),
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(width: 16),
-              ArrowKeys(
-                icon: Icons.arrow_right,
-                width: 36,
-                height: 36,
-                toolTip: 'Next user',
-                onTap: () {
-                  if (!_isSubmitting) _selectNextUser();
-                },
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-        
-          // Password field + submit
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
+            const SizedBox(height: 16),
+            const CircleAvatar(
+              radius: 40,
+              backgroundColor: Color.fromARGB(255, 74, 68, 114),
+              child: Icon(Icons.person, color: Colors.white, size: 42),
+            ),
+            const SizedBox(height: 16),
+
+            // Username selector
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Flexible(
-                  child: TextField(
-                    controller: _passwordController,
-                    enabled: !_isSubmitting,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.lock, color: Colors.white),
-                    ),
-                    obscureText: true,
-                    style: const TextStyle(color: Colors.white),
-                    onSubmitted: (_) => _submitLogin(),
-                  ),
-                ),
-                const SizedBox(width: 8),
                 ArrowKeys(
-                  icon: Icons.keyboard_arrow_right,
-                  toolTip: 'Enter password',
+                  icon: Icons.arrow_left,
+                  width: 36,
+                  height: 36,
+                  toolTip: 'Previous user',
                   onTap: () {
-                    if (!_isSubmitting) _submitLogin();
+                    if (!_isSubmitting) _selectPreviousUser();
+                  },
+                ),
+                const SizedBox(width: 16),
+                Text(
+                  _displayedUsername,
+                  style: const TextStyle(color: Colors.white, fontSize: 20),
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(width: 16),
+                ArrowKeys(
+                  icon: Icons.arrow_right,
+                  width: 36,
+                  height: 36,
+                  toolTip: 'Next user',
+                  onTap: () {
+                    if (!_isSubmitting) _selectNextUser();
                   },
                 ),
               ],
             ),
-          ),
-          const SizedBox(height: 16),
-        
-          // Wayland session selector
-          if (_isWaylandLoading)
-            const Text(
-              'Loading sessions...',
-              style: TextStyle(color: Colors.white70),
-            )
-          else if (sessionItems.isEmpty)
-            const Text(
-              'No sessions found',
-              style: TextStyle(color: Colors.white70),
-            )
-          else
-            DropdownButton<int>(
-              value: currentSessionValue,
-              dropdownColor: const Color.fromARGB(255, 40, 38, 56),
-              items: sessionItems,
-              onChanged: _isSubmitting
-                  ? null
-                  : (int? newIndex) {
-                      if (newIndex == null) return;
-                      setState(() {
-                        _waylandSelectedIndex = newIndex;
-                      });
+            const SizedBox(height: 16),
+
+            // Password field + submit
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: [
+                  Flexible(
+                    child: TextField(
+                      controller: _passwordController,
+                      enabled: !_isSubmitting,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.lock, color: Colors.white),
+                      ),
+                      obscureText: true,
+                      style: const TextStyle(color: Colors.white),
+                      onSubmitted: (_) => _submitLogin(),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  ArrowKeys(
+                    icon: Icons.keyboard_arrow_right,
+                    toolTip: 'Enter password',
+                    onTap: () {
+                      if (!_isSubmitting) _submitLogin();
                     },
+                  ),
+                ],
+              ),
             ),
+            const SizedBox(height: 16),
+
+            // Wayland session selector
+            if (_isWaylandLoading)
+              const Text(
+                'Loading sessions...',
+                style: TextStyle(color: Colors.white70),
+              )
+            else if (sessionItems.isEmpty)
+              const Text(
+                'No sessions found',
+                style: TextStyle(color: Colors.white70),
+              )
+            else
+              DropdownButton<int>(
+                value: currentSessionValue,
+                dropdownColor: const Color.fromARGB(255, 40, 38, 56),
+                items: sessionItems,
+                onChanged: _isSubmitting
+                    ? null
+                    : (int? newIndex) {
+                        if (newIndex == null) return;
+                        setState(() {
+                          _waylandSelectedIndex = newIndex;
+                        });
+                      },
+              ),
           ],
         ),
       ),
