@@ -4,11 +4,12 @@ class ActionButtons extends StatefulWidget {
   final String name;
   final IconData icon;
   final Color color;
+  final VoidCallback onTap;
   const new({
     super.key,
     required this.name,
     required this.icon,
-    required this.color,
+    required this.color, required this.onTap,
   });
 
   @override
@@ -44,7 +45,7 @@ class _ActionButtonsState extends State<ActionButtons> {
                 isHovered = value;
               });
             },
-            onTap: () {},
+            onTap: widget.onTap,
 
             child: Icon(widget.icon, size: 32),
           ),
